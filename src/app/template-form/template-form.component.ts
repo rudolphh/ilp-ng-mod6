@@ -1,5 +1,7 @@
+import { User } from './../models/user';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ConfirmEqualDirective } from './../_helpers/confirm-equal.directive';
 import { Component, OnInit } from '@angular/core';
-import { Form, FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'template-form',
@@ -9,10 +11,12 @@ import { Form, FormGroup, NgForm } from '@angular/forms';
 export class TemplateFormComponent implements OnInit {
 
   submitted : boolean = false;
+  model : User = {};
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   onSubmit() {

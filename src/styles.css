@@ -16,6 +16,6 @@ form {
   justify-content: center;
 }
 
-.validation-error {
-  color: red;
+.text-danger {
+  font-size: small;
 }

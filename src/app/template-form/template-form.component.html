@@ -1,35 +1,79 @@
 
 <div class="container">
-  <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()">
+  <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()"
+        [confirmEqual]="['password', 'confirmPassword']" novalidate>
+
     <div class="mb-3">
       <label for="userName" class="form-label">Full Name</label>
       <input type="text" class="form-control" id="userName" name="name"
-              aria-describedby="nameHelp" required ngModel/>
+        [class.is-invalid]="name.invalid && name.touched" required
+        aria-describedby="nameHelp" [(ngModel)]="model.name" #name="ngModel" />
       <small id="nameHelp" class="form-text">First and last name</small>
+      <span class="text-danger"
+        *ngIf="(name.touched || f.submitted) && name.errors?.required">
+        Name is required
+      </span>
     </div>
+
     <div class="mb-3">
       <label for="userEmail" class="form-label">Email Address</label>
       <input type="email" class="form-control" id="userEmail" name="email"
-              aria-describedby="emailHelp" pattern=".+@.+" size="30" required ngModel />
+        [class.is-invalid]="email.invalid && email.touched" required
+          aria-describedby="emailHelp" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          [(ngModel)]="model.email" #email="ngModel" />
       <small id="emailHelp" class="form-text">example@site.com</small>
+      <span class="text-danger"
+        *ngIf="(email.valid || f.submitted) && email.errors?.required">
+        Email is required
+      </span>
+      <span class="text-danger"
+        *ngIf="(email.valid || f.submitted) && email.errors?.pattern">
+        Email is invalid
+      </span>
     </div>
+
     <div class="mb-3">
       <label for="userPhone" class="form-label">Phone Number</label>
-      <input type="tel" class="form-control" id="userPhone" name="phone" required
-              aria-describedby="emailHelp" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" ngModel/>
+      <input type="tel" class="form-control" id="userPhone" name="phone" minLength="12"
+        [(ngModel)]="model.phone" #phone="ngModel"
+        [class.is-invalid]="phone.invalid && phone.touched" required
+          aria-describedby="phoneHelp" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
       <small id="phoneHelp" class="form-text" >Format : 123-456-7890</small>
+      <span class="text-danger"
+        *ngIf="(phone.valid || f.submitted) && phone.errors?.required">
+        Phone is required
+      </span>
+      <span class="text-danger"
+        *ngIf="(phone.valid || f.submitted) && phone.errors?.pattern">
+        Phone is invalid
+      </span>
     </div>
+
     <div class="mb-3">
       <label for="userPassword" class="form-label">Password</label>
-      <input type="password" class="form-control" id="userPassword" name="password" required ngModel>
+      <input type="password" class="form-control" id="userPassword" name="password"
+        [(ngModel)]="model.password" #password="ngModel"
+        [class.is-invalid]="password.invalid && password.touched" required />
+      <span class="text-danger"
+        *ngIf="(password.touched || f.submitted) && password.errors?.required">
+        Password is required
+      </span>
     </div>
+
     <div class="mb-3">
       <label for="confirmPassword" class="form-label">Confirm Password</label>
-      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required ngModel>
+      <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+        [(ngModel)]="model.confirmPassword" #confirmPassword="ngModel"
+        [class.is-invalid]="confirmPassword.invalid && confirmPassword.touched" required />
+
+      <span class="text-danger"
+        *ngIf="(confirmPassword.touched || f.submitted) && confirmPassword.errors?.confirmEqual">
+        Passwords do not match
+      </span>
     </div>
 
     <div class="btn-group">
-      <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Submit</button>
+      <button type="submit" class="btn btn-primary" >Submit</button>
     </div>
   </form>
 </div>
